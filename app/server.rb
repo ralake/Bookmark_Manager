@@ -15,6 +15,7 @@ class BookmarkManager < Sinatra::Base
   enable :partial_underscores
   set :session_secret, 'super secret'
   set :partial_template_engine, :erb
+  set :public_folder, Proc.new { File.join(root, "..", "public/css") }
   use Rack::Flash
   use Rack::MethodOverride
 
