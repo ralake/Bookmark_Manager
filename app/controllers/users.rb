@@ -18,4 +18,19 @@ class BookmarkManager
     end
   end
 
+  get '/users/forgot_password' do
+    erb :"users/forgot_password"
+  end
+
+  post '/users/forgot_password' do
+    flash[:notice] = "Please check your email"
+    redirect '/'
+  end
+
+  get '/users/reset_password/:token' do
+    @token = params[:token]
+    user = User.first(password_token: @token)
+    erb :"users/reset_password"
+  end
+
 end
