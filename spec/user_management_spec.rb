@@ -97,6 +97,10 @@ feature "User can reset password" do
   scenario 'User resets password' do
     visit '/users/reset_password/TESTER'
     expect(page).to have_content('Please enter a new password')
+    fill_in :new_password, :with => 'test1'
+    fill_in :confirm_password, :with => 'test1'
+    click_button('Reset Password')
+    expect(page).to have_content('Password successfully reset')
   end
 
 end

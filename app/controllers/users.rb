@@ -23,6 +23,9 @@ class BookmarkManager
   end
 
   post '/users/forgot_password' do
+    user = User.first(email: params[:email])
+    user.password_token = (1..64).map{('A'..'Z').to_a.sample}.join
+    user.save
     flash[:notice] = "Please check your email"
     redirect '/'
   end
@@ -31,6 +34,15 @@ class BookmarkManager
     @token = params[:token]
     user = User.first(password_token: @token)
     erb :"users/reset_password"
+  end
+
+  post '/users/reset_password' do
+    @token = params[:password_token]
+    user = User.first(password_token: @token)
+    user.update(password: params[:password], password_token: nil)
+
+    flash[:notice] = "Password successfully reset"
+    redirect '/'
   end
 
 end
