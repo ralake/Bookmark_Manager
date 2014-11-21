@@ -26,9 +26,15 @@ class BookmarkManager
     user = User.first(email: params[:email])
     user.password_token = (1..64).map{('A'..'Z').to_a.sample}.join
     user.save
-    email = user.email
-    token = user.password_token
-    send_message(email, token)
+    @email = user.email
+    @token = user.password_token
+    mg_client = Mailgun::Client.new "#{ENV['MAILGUN_API_KEY']}"
+    message_params = {:from    => ENV['MAILGUN_FROM_ADDRESS'],
+                      # :to      => "#{@email}",
+                      :to      => 'ralake1985@gmail.com',
+                      :subject => 'Reset Password',
+                      :text    => "Please follow the following link to reset your password.\n http://localhost:9292/users/reset_password/#{@token}"}
+    mg_client.send_message "sandbox9533715787bf49408a576e6f77424cf3.mailgun.org", message_params
     flash[:notice] = "Please check your email"
     redirect '/'
   end
@@ -47,16 +53,5 @@ class BookmarkManager
     flash[:notice] = "Password successfully reset"
     redirect '/'
   end
-
-  def send_message(password_token, email)
-    mg_client = Mailgun::Client.new "key-912588def6a5f40e2a7641dc849c6441"
-    message_params = {:from    => 'postmaster@sandbox9533715787bf49408a576e6f77424cf3.mailgun.org',
-                      # :to      => '#{user.email}',
-                      :to      => 'ralake1985@gmail.com',
-                      :subject => 'Reset Password',
-                      :text    => 'Please follow the following link to reset your password.\n http://vast-gorge-8099.herokuapp.com/users/reset_password/user.password_token'}
-
-    mg_client.send_message "sandbox9533715787bf49408a576e6f77424cf3.mailgun.org", message_params
-  end
-
+  
 end
