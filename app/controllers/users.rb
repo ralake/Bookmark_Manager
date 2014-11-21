@@ -31,10 +31,10 @@ class BookmarkManager
     mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
     message_params = {:from    => ENV['MAILGUN_FROM_ADDRESS'],
                       # :to      => "#{@email}",
-                      :to      => 'ralake1985@gmail.com',
+                      :to => 'ralake1985@gmailcom',
                       :subject => 'Reset Password',
                       :text    => "Please follow the following link to reset your password.\n http://vast-gorge-8099.herokuapp.com//users/reset_password/#{@token}"}
-    mg_client.send_message "sandbox9533715787bf49408a576e6f77424cf3.mailgun.org", message_params
+    mg_client.send_message "postmaster@sandbox9533715787bf49408a576e6f77424cf3.mailgun.org", message_params
     flash[:notice] = "Please check your email"
     redirect '/'
   end
