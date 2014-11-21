@@ -28,7 +28,7 @@ class BookmarkManager
     user.save
     @email = user.email
     @token = user.password_token
-    mg_client = Mailgun::Client.new "#{ENV['MAILGUN_API_KEY']}"
+    mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
     message_params = {:from    => ENV['MAILGUN_FROM_ADDRESS'],
                       # :to      => "#{@email}",
                       :to      => 'ralake1985@gmail.com',
