@@ -6,6 +6,7 @@ gem 'sinatra'
 gem 'bcrypt'
 gem 'rack-flash3'
 gem 'sinatra-partial'
+gem 'mailgun-ruby', '~>1.0.3', require: 'mailgun'
 
 group :development, :test do
   gem 'rspec'
